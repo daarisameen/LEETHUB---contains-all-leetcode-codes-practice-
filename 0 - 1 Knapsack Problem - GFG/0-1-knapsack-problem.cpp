@@ -9,28 +9,30 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
-    // int solve
-    int solve(int w, int wt[], int val[], int n,vector<vector<int>>&ans)
-    {
-        
-        if(n==0 || w==0)
-        return 0;
-        if(ans[w][n]!=-1)
-        return ans[w][n];
-       if(wt[n-1]<=w)
-       {
-           return ans[w][n]=max(val[n-1]+solve(w-wt[n-1],wt,val,n-1,ans),solve(w,wt,val,n-1,ans));
-       }
-       else
-        return ans[w][n]=solve(w,wt,val,n-1,ans);
-
-        
-    }
     int knapSack(int w, int wt[], int val[], int n) 
     { 
-      vector<vector<int>>ans(w+1,vector<int>(n+1,-1));
-      int result = solve(w,wt,val,n,ans);
-      return result;
+       // Your code here
+       int t[n+1][w+1];
+       memset(t,0,sizeof(t));
+       for(int i=0;i<n+1;i++)
+       {
+           for(int j=0;j<w+1;j++)
+           {
+               if(i==0 || j==0)
+               t[i][j]=0;
+           }
+       }
+       for(int i=1;i<n+1;i++)
+       {
+           for(int j=1;j<w+1;j++)
+           {
+               if(wt[i-1]<=j)
+               t[i][j]=max(val[i-1]+t[i-1][j-wt[i-1]],t[i-1][j]);
+               else
+               t[i][j]=t[i-1][j];
+           }
+       }
+       return t[n][w];
     }
 };
 
