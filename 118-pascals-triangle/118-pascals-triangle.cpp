@@ -8,16 +8,10 @@ public:
         
         if(numRows==1)
             return v;
-        
-        vector<int>zz;zz.push_back(1);zz.push_back(1);
-        
-        v.push_back(zz);
-        
-        if(numRows==2)
-            return v;
+    
         else
         {
-            for(int i=2;i<=numRows-1;i++)
+            for(int i=1;i<=numRows-1;i++)
             {
                 vector<int>zzz;
                 zzz.push_back(1);
