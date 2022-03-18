@@ -17,6 +17,6 @@ public:
         {
             z[i]=min(cost[i]+z[i+1],cost[i]+z[i+2]);
         }
-        return min(v[0],z[1]);
+        return min(v[0],v[1]);
     }
 };
