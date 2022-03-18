@@ -9,14 +9,6 @@ public:
         {
             v[i]=min(cost[i]+v[i+1],cost[i]+v[i+2]);
         }
-        
-        vector<int>z(cost.size()+2,-1);
-        z[cost.size()]=0;
-        z[cost.size()+1]=0;
-        for(int i=cost.size()-1;i>=1;i--)
-        {
-            z[i]=min(cost[i]+z[i+1],cost[i]+z[i+2]);
-        }
         return min(v[0],v[1]);
     }
 };
