@@ -1,18 +1,6 @@
 class Solution {
 public:
-    int solve(string s,string t,int i,int j,vector<vector<int>>&v)
-    {
-        
-        if(i==s.length() || j==t.length())
-            return 0;
-        else if(v[i][j]!=-1)
-            return v[i][j];
-        else if(s[i]==t[j])
-            return v[i][j]=1+solve(s,t,i+1,j+1,v);
-        else
-            return v[i][j]=solve(s,t,i,j+1,v);
-    }
-    bool isSubsequence(string s, string t) {
+        bool isSubsequence(string s, string t) {
         if(s.length()==0)
             return true;
         vector<vector<int>>v(s.length()+1,vector<int>(t.length()+1,-1));
