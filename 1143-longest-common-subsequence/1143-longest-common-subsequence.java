@@ -30,10 +30,7 @@ public:
                 else
                 {
                     // v[i][j]=max(v[i+1][j],v[i][j+1]);
-                    if(v[i+1][j]>v[i][j+1])
-                        v[i][j]=v[i+1][j];
-                    else
-                        v[i][j]=v[i][j+1];
+                    v[i][j]=max(v[i+1][j],v[i][j+1]);
                 }
             }
         }
