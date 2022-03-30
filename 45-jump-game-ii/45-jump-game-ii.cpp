@@ -10,16 +10,13 @@ public:
             return 1000;
         else
         {
+            int mx=INT_MAX;
             priority_queue<int,vector<int>,greater<int>>pq;
             for(int j=i+1;j<=i+nums[i];j++)
             {
-                if(pq.size()==0)
-                pq.push(1+solve(nums,j,v));
-                if(pq.size()>0)
-                    if(pq.top()>(1+solve(nums,j,v)))
-                        pq.push(1+solve(nums,j,v));
+                mx=min(mx,1+solve(nums,j,v));
             }
-         return v[i]=pq.top();
+         return v[i]=mx;
         }
         
     }
