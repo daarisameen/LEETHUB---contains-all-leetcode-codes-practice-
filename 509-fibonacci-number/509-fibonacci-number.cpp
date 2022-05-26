@@ -18,6 +18,10 @@ public:
         v[1]=1;
         if(n==1)
             return 1;
-        return solve(n,v);
+        for(int i=2;i<=n;i++)
+        {
+            v[i]=v[i-1]+v[i-2];
+        }
+        return v[n];
     }
 };
