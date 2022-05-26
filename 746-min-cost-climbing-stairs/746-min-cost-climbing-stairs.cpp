@@ -1,14 +1,18 @@
 class Solution {
 public:
-
+    int solve(int& sum,int i,vector<int>& cost,vector<int>&v)
+    {
+        if(i>=cost.size())
+            return 0;
+        if(v[i]!=-1)
+            return v[i];
+        return v[i]=min(sum+cost[i]+solve(sum,i+1,cost,v),sum+cost[i]+solve(sum,i+2,cost,v));
+    }
     int minCostClimbingStairs(vector<int>& cost) {
-        vector<int>v(cost.size()+2,-1);
-        v[cost.size()]=0;
-        v[cost.size()+1]=0;
-        for(int i=cost.size()-1;i>=0;i--)
-        {
-            v[i]=min(cost[i]+v[i+1],cost[i]+v[i+2]);
-        }
-        return min(v[0],v[1]);
+        int sum1=0,sum2=0;
+        vector<int>v(cost.size()+2,-1);        
+        
+        return min(solve(sum1,0,cost,v),solve(sum2,1,cost,v));
+        
     }
 };
