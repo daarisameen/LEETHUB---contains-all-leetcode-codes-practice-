@@ -7,8 +7,6 @@ public:
         while(start<=end)
         {
             int mid=(end-start)/2+start;
-            int next=(mid+1)%n;
-            int prev=(mid+n-1)%n;
             if(mid>0 and mid<n-1)
             {
                 if(arr[mid]>arr[mid-1] and arr[mid]>arr[mid+1])
