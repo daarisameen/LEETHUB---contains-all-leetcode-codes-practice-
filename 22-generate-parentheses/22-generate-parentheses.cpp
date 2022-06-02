@@ -1,21 +1,22 @@
 class Solution {
 public:
-    void generateAll(int n, int open, int close, vector<string>&v, string s)
+    void solve(vector<string>& v,int op,int co,string s)
     {
-        if(open>n || close>n || close>open)
+        if(op>co || op<0 || co<0)
             return;
-        if(open==n && close==n)
+        if(op==co and op==0)
         {
             v.push_back(s);
             return;
         }
-        generateAll(n, open+1, close, v, s+'(');
-        generateAll(n, open, close+1, v, s+')');
-        return;
+        solve(v,op-1,co,s+"(");
+        solve(v,op,co-1,s+")");
     }
     vector<string> generateParenthesis(int n) {
+        int op=n,co=n;
         vector<string>v;
-        generateAll(n, 0, 0, v, "");
+        string s="";
+        solve(v,op,co,s);
         return v;
     }
 };
