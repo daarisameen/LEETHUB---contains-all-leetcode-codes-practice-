@@ -1,56 +1,76 @@
 class Solution {
 public:
-    int maximalRectangle(vector<vector<char>>& matrix) {
-//base cases
-        int n = matrix.size();
-        if(n == 0) return 0;
-        int m = matrix[0].size();
-        if(n + m == 2) return matrix.front().front() == '1';
-		
-	//dp to store max number of adjacent 1s on left for each matrix[ i ][ j ]
-        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
-        for(int i=1;i<=n;i++)
-        {
-            for(int j=1;j<=m;j++)
-            {
-                if(matrix[i-1][j-1] != '0')
-                  dp[i][j] = 1 + dp[i][j-1];
-                // cout<<dp[i][j]<<" ";
-            }
-            // cout<<endl;
-        }
+    int max_rectangle_histogram(vector<int> height)
+    {
+        int n=height.size();
+        vector<int>ansl,ansr;
+        stack<pair<int,int>>sl,sr;
         
-		//variable to store answer
-        int area = 0;
-		
-        for(int i=1;i<=n;i++)
+        for(int i=0;i<n;i++)
         {
-            for(int j=1;j<=m;j++)
+            if(sl.size()==0)
+                ansl.push_back(-1);
+            if(sl.size()>0 and sl.top().first<height[i])
+                ansl.push_back(sl.top().second);
+            else if(sl.size()>0 and sl.top().first>=height[i])
             {
-			//variable to store current width of rectangle of size 1 * dp[i][j]
-                int width = dp[i][j];
-                int k = i-1;
-                int height = 1;
-                area = max(area,width * height);
-				
-				//now we'll start moving upwards as long as we are inside the matrix
-				//ans change the height ans width accordingly to find the largest
-				//area which can be achieved including current element
-				//height always increases as we go up, width of rectangle till that height changes
-				//to minimum no. of left 1s for every upward element
-                while(k > 0 and dp[k][j] > 0)
+                while(sl.size()>0 and sl.top().first>=height[i])
                 {
-                    height++;
-                    width = min(width,dp[k--][j]);
-					//for every acceptable height, we check if it can be our answer
-                    area = max(width * height,area);
+                    sl.pop();
                 }
+                if(sl.size()==0)
+                    ansl.push_back(-1);
+                else
+                    ansl.push_back(sl.top().second);
             }
+            sl.push({height[i],i});
         }
         
-        return area;
+        for(int i=n-1;i>=0;i--)
+        {
+            if(sr.size()==0)
+                ansr.push_back(n);
+            if(sr.size()>0 and sr.top().first<height[i])
+                ansr.push_back(sr.top().second);
+            else if(sr.size()>0 and sr.top().first>=height[i])
+            {
+                while(sr.size()>0 and sr.top().first>=height[i])
+                {
+                    sr.pop();
+                }
+                if(sr.size()==0)
+                    ansr.push_back(n);
+                else
+                    ansr.push_back(sr.top().second);
+            }
+            sr.push({height[i],i});
+        }
+        reverse(ansr.begin(),ansr.end());
+        
+        int res=0;
+        for(int i=0;i<n;i++)
+        {
+            res=max(res,height[i]*((i-ansl[i])+(ansr[i]-i)-1));
+        }
+        cout<<res<<" ";
+        return res;
+        
     }
-// ```
-// Time Complexity : O(n * m * n)
-// Space Complexity : O(n * m)
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int m=matrix.size(),n=matrix[0].size();
+        vector<int>histogram(n,0);
+        int result=0;
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                if(matrix[i][j]=='1')
+                    histogram[j]+=1;
+                else
+                    histogram[j]=0;
+            }
+            result = max(result,max_rectangle_histogram(histogram));
+        }
+        return result;
+    }
 };
