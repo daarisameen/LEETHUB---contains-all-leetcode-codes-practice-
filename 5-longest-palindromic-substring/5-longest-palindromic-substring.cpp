@@ -1,62 +1,51 @@
-
-class Solution {
-public:
-    string longestPalindrome(string s) 
-    {
-        int dp[1001][1001];
-        int maxLength = INT_MIN;
-        int n = s.size();
-        string s2(s.rbegin(), s.rend());
-        int fStart; // final start index
-
-        for(int i =0; i <=n;i++)
+class Solution
+{
+    public:
+        string longestPalindrome(string s)
         {
-            for(int j =0; j<=n;j++)
+            int n = s.size();
+
+           	//dp[i][j] will be false if substring s[i..j] is not palindrome, Else true
+            vector<vector < bool>> dp(n, vector<bool> (n, false));
+
+           	//All substrings of length 1 are palindromes
+            for (int i = 0; i < n; i++) dp[i][i] = true;
+
+            int start = 0, lenMax = 1;
+
+           	// check for sub-string of length 2.
+            for (int i = 0; i < n - 1; i++)
             {
-                dp[i][j] = 0;
+                if (s[i] == s[i + 1])
+                {
+                    dp[i][i + 1] = true;
+                    start = i;
+                    lenMax = 2;
+                }
             }
-        }
-        for(int i =1; i <=n;i++)
-        {
-            for(int j =1; j<=n;j++)
+
+           	// Check for sub-string of length greater than 2.
+            for (int k = 3; k <= n; k++)	// k is length of substring
             {
-                if(s[i-1] == s2[j-1] )
+                for (int i = 0; i < n - k + 1; i++)	// Fix the starting index
                 {
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                }
-                else
-                {
-                    dp[i][j] = 0;
-                }
-                
-                if(maxLength < dp[i][j])
-                {
-                    // get substring from reverse string 
-                    // resverse it
-                    // it should match with substring of actual string
-                    
-                    // dp[i][j] is possible max length of palindrom; lets call it currMaxLength
-                    
-                    // i-1 is end of actual string.
-                    // end - currMaxLength + 1 is start of actual string
-                    int start = (i-1)-dp[i][j] + 1;
-                    
-                    // j-1 is end of reverse string; lets call it rend.
-                    // rend- currMaxLength +1 is start of reverse string; lets call it rstart
-                    int rstart = (j-1)-dp[i][j] + 1;
-                    
-                    // (n-1) - rend should match with start
-                    // (n-1) - rstart should match with end
-                    int cstart = (n-1) - rstart;
-                    if(cstart == (i-1) && (n-1)-(j-1) ==start)
+                    int j = i + k - 1;	// Get the ending index of substring from starting index i and length k
+
+                   	// checking for sub-string from ith index to jth index if s[i+1] to s[j-1] is a palindrome
+                    if (dp[i + 1][j - 1] == true && s[i] == s[j])
                     {
-                        maxLength = dp[i][j];
-                        fStart = (i-1)-dp[i][j] + 1; // fsart=start
-                    }                  
+                        dp[i][j] = true;
+
+                        if (k > lenMax)
+                        {
+                            lenMax = k;
+                            start = i;
+                        }
+                    }
                 }
             }
+
+           	//print sub-string from start to lenMax
+            return s.substr(start, lenMax);
         }
-        
-        return s.substr(fStart,maxLength);
-    }
 };
