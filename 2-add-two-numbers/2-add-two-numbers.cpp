@@ -11,72 +11,62 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* node = new ListNode();
-        ListNode* head = node;
+        ListNode* head=new ListNode(0);
+        ListNode* temp=head;
         int carry=0;
         while(l1!=NULL and l2!=NULL)
         {
-            if(l1->val+l2->val+carry>=10)
+            if(l1->val + l2->val + carry>=10)
             {
-                ListNode* temp = new ListNode((l1->val+l2->val+carry)%10);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l1->val + l2->val + carry)%10);
                 carry=1;
             }
             else
             {
-                ListNode* temp = new ListNode((l1->val+l2->val+carry)%10);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l1->val + l2->val + carry)%10);
                 carry=0;
             }
             l1=l1->next;
             l2=l2->next;
+            head=head->next;
         }
+        
         while(l1!=NULL)
         {
-            if(l1->val+carry>=10)
+            if(l1->val + carry>=10)
             {
-                ListNode* temp = new ListNode((l1->val+carry)%10);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l1->val + carry)%10);
                 carry=1;
-                l1=l1->next;
             }
             else
             {
-                ListNode* temp = new ListNode(l1->val+carry);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l1->val + carry)%10);
                 carry=0;
-                l1=l1->next;
             }
+            l1=l1->next;
+            head=head->next;
         }
+        
         while(l2!=NULL)
         {
-            if(l2->val+carry>=10)
+            if(l2->val + carry>=10)
             {
-                ListNode* temp = new ListNode((l2->val+carry)%10);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l2->val + carry)%10);
                 carry=1;
-                l2=l2->next;
             }
             else
             {
-                ListNode* temp = new ListNode(l2->val+carry);
-                head->next=temp;
-                head=head->next;
+                head->next=new ListNode((l2->val + carry)%10);
                 carry=0;
-                l2=l2->next;
             }
+            l2=l2->next;
+            head=head->next;
         }
         if(carry)
         {
-            ListNode* temp = new ListNode(carry);
-            head->next=temp;
+            head->next=new ListNode(carry);
             head=head->next;
         }
-        return node->next;
+        return temp->next;
     }
 };
